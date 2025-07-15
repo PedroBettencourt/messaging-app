@@ -6,6 +6,11 @@ app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+// Authentication
+const initPassport = require('./passport');
+initPassport();
+
+// Routes
 const indexRouter = require("./index");
 app.use("/", indexRouter);
 

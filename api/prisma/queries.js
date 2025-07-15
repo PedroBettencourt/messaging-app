@@ -1,8 +1,14 @@
-import { PrismaClient } from '../generated/prisma';
+const { PrismaClient } = require('../generated/prisma');
 const prisma = new PrismaClient();
+
 
 async function addUser(username, password, bio) {
     const user = await prisma.user.create({ data: { username: username, password: password, bio: bio } });
+    return user;
+};
+
+async function updateUserBio(username, bio) {
+    const user = await prisma.user.update({ where: { username: username }, data: { bio: bio } });
     return user;
 };
 
@@ -10,6 +16,11 @@ async function getUser(username) {
     const user = await prisma.user.findUnique({ where: { username: username } });
     return user;
 };
+
+async function deleteUser(username) {
+    const user = await prisma.user.delete({ where: { username: username } });
+    return user;
+}
 
 async function sendMessage(authorId, recipientId) {
     const message = await prisma.message.create({ data: { authorId: authorId, recipientId: recipientId } });
@@ -21,4 +32,4 @@ async function getMessages(username) {
     return messages;
 }
 
-module.exports = { addUser, getUser, sendMessage, getMessages };
+module.exports = { prisma, addUser, updateUserBio, getUser, deleteUser, sendMessage, getMessages };
