@@ -1,5 +1,17 @@
 const { PrismaClient } = require('../generated/prisma');
-const prisma = new PrismaClient();
+
+// Change database if it's for testing or not
+const databaseUrl = process.env.NODE_ENV === 'test'
+  ? process.env.TEST_DATABASE_URL
+  : process.env.DATABASE_URL;
+
+const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: databaseUrl,
+    },
+  },
+});
 
 
 async function addUser(username, password, bio) {
@@ -22,14 +34,22 @@ async function deleteUser(username) {
     return user;
 }
 
-async function sendMessage(authorId, recipientId) {
-    const message = await prisma.message.create({ data: { authorId: authorId, recipientId: recipientId } });
+async function sendMessage(authorId, recipientId, content) {
+    const message = await prisma.message.create({ data: { authorId: authorId, recipientId: recipientId, content: content } });
     return message;
 };
 
-async function getMessages(username) {
-    const messages = await prisma.message.findMany({ where: { recipientId: username } });
+async function getMessages(recipeintId) {
+    const messages = await prisma.message.findMany({ where: { recipientId: recipeintId } });
     return messages;
 }
 
-module.exports = { prisma, addUser, updateUserBio, getUser, deleteUser, sendMessage, getMessages };
+async function deleteAllMessages() {
+    await prisma.message.deleteMany();
+}
+
+async function deleteAllUsers() {
+    await prisma.user.deleteMany();
+}
+
+module.exports = { prisma, addUser, updateUserBio, getUser, deleteUser, sendMessage, getMessages, deleteAllMessages, deleteAllUsers };

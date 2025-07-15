@@ -97,6 +97,45 @@ test("get profile", async () => {
     .get("/testing")
     
   expect(res.body).toEqual({ username: "testing", bio: "another bio" });
-
-  await db.deleteUser("testing");
 });
+
+
+test("send message to nonexistent user", async () => {
+
+  const res = await request(app)
+    .post("/message")
+    .set('Authorization', `Bearer ${TOKEN}`)
+    .type("form")
+    .send({ recipient: "nouser", content: "testing"});
+  
+  expect(res.status).toBe(400);
+});
+
+
+test("send message correctly", async () => {
+
+  // Create another user
+  await request(app)
+    .post("/register")
+    .type("form")
+    .send({ username: "testing2", password: "abcdef", passwordRepeat: "abcdef", bio: "another testing" });
+  
+  const res = await request(app)
+    .post("/message")
+    .set('Authorization', `Bearer ${TOKEN}`)
+    .type("form")
+    .send({ recipient: "testing2", content: "testing"});
+
+  expect(res.body).toMatchObject({ content: "testing" });
+})
+
+
+test("get messages", async () => {
+
+  const res = await request(app)
+    .get("/messages")
+    .set('Authorization', `Bearer ${TOKEN}`);
+
+  await db.deleteAllMessages()
+  await db.deleteAllUsers();
+})

@@ -110,6 +110,60 @@ index.put("/update",
 });
 
 
+// Send message
+const validateMessage = [
+    body("recipient")
+        .exists()
+        .trim()
+        .matches(/^[a-zA-Z0-9]{3,}$/)
+        .withMessage("Invalid username"),
+    body("content")
+        .exists()
+        .trim()
+        .isLength({ max: 500 }).withMessage("Message is too long (plus 500 characters)")
+        .matches(/^[a-zA-Z0-9 -]*$/)
+        .withMessage("Invalid message"),
+];
+
+index.post("/message", 
+    passport.authenticate("jwt", { session: false }),
+    validateMessage,
+    async (req, res) => {
+        // Validate recipient and content
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json(errors);
+        }
+
+        const author = req.user;
+        const authorDb = await db.getUser(author);
+
+        const { recipient, content } = req.body;
+
+        // Check if there is a recipient in the database
+        const recipientDb = await db.getUser(recipient);
+        if (!recipientDb) return res.status(400).json("No recipient found");
+
+        // Send message
+        const message = await db.sendMessage(authorDb.id, recipientDb.id, content);
+        return res.json(message);
+    }
+);
+
+
+// Get messages
+index.get("/messages",
+    passport.authenticate("jwt", { session: false }),
+    async (req, res) => {
+        const username = req.user;
+        const user = await db.getUser(username);
+
+        const messages = await db.getMessages(user.id);
+        return res.json(messages);
+    }
+);
+
+
 // Profile
 index.get("/:username", async (req, res) => {
     const username = req.params.username;
@@ -120,7 +174,6 @@ index.get("/:username", async (req, res) => {
     return res.json({ username: profile.username, bio: profile.bio });
 
     // Probably get people who they've talked in order of most recent;
-})
-
+});
 
 module.exports = index;
