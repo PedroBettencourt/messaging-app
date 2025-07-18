@@ -151,14 +151,31 @@ index.post("/message",
 );
 
 
-// Get messages
-index.get("/messages",
+// Get contacts
+index.get("/contacts",
     passport.authenticate("jwt", { session: false }),
     async (req, res) => {
         const username = req.user;
         const user = await db.getUser(username);
 
-        const messages = await db.getMessages(user.id);
+        const data = await db.getContacts(user.id);
+        const contacts = data.map(contact => contact.recipient.username);
+        return res.json(contacts);
+    }
+);
+
+
+// Get messages from a contact
+index.get("/messages/:username",
+    passport.authenticate("jwt", { session: false }),
+    async (req, res) => {
+        const username = req.user;
+        const user = await db.getUser(username);
+
+        const senderUsername = req.params.username;
+        const sender = await db.getUser(senderUsername);
+
+        const messages = await db.getMessages(user.id, sender.id);
         return res.json(messages);
     }
 );

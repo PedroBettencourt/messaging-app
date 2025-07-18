@@ -39,9 +39,15 @@ async function sendMessage(authorId, recipientId, content) {
     return message;
 };
 
-async function getMessages(recipeintId) {
-    const messages = await prisma.message.findMany({ where: { recipientId: recipeintId } });
-    return messages;
+async function getMessages(authorId, recipientId) {
+    const sentMessages = await prisma.message.findMany({ where: { authorId: authorId, recipientId: recipientId } });
+    const receivedMessages = await prisma.message.findMany({ where: { authorId: recipientId, recipientId: authorId } });
+    return [sentMessages, receivedMessages];
+};
+
+async function getContacts(userId) {
+    const contacts = await prisma.message.findMany({ distinct: ['recipientId'], where: { authorId: userId }, include: { recipient: true } });
+    return contacts;
 }
 
 async function deleteAllMessages() {
@@ -52,4 +58,4 @@ async function deleteAllUsers() {
     await prisma.user.deleteMany();
 }
 
-module.exports = { prisma, addUser, updateUserBio, getUser, deleteUser, sendMessage, getMessages, deleteAllMessages, deleteAllUsers };
+module.exports = { prisma, addUser, updateUserBio, getUser, deleteUser, sendMessage, getMessages, getContacts, deleteAllMessages, deleteAllUsers };

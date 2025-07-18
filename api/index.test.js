@@ -127,15 +127,29 @@ test("send message correctly", async () => {
     .send({ recipient: "testing2", content: "testing"});
 
   expect(res.body).toMatchObject({ content: "testing" });
-})
+});
 
 
 test("get messages", async () => {
 
   const res = await request(app)
-    .get("/messages")
+    .get("/messages/testing2")
     .set('Authorization', `Bearer ${TOKEN}`);
 
-  await db.deleteAllMessages()
+  expect(res.body[0][0]).toMatchObject({ content: "testing" });
+
+});
+
+test("get contacts", async () => {
+
+  const res = await request(app)
+    .get("/contacts")
+    .set('Authorization', `Bearer ${TOKEN}`);
+
+  console.log(res.body)
+
+  expect(res.body).toEqual(["testing2"]);
+
+  await db.deleteAllMessages();
   await db.deleteAllUsers();
-})
+});
