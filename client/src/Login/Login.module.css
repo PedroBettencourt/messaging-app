@@ -1,0 +1,39 @@
+.loginClass {
+    margin: 20px;
+}
+
+.formClass {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+}
+
+.formEntry {
+    display: flex;
+    flex-direction: column;
+}
+
+.formEntry > input {
+    max-width: 200px;
+}
+
+.link {
+    text-decoration: none;
+    color: var(--color-text);
+    display: block;
+    margin-top: 20px;
+}
+
+.link:hover {
+    color: var(--color-hover);
+    cursor: pointer;
+}
+
+.errorClass {
+    list-style-type: none;
+    margin-bottom: 20px;
+    padding: 0;
+    font-weight: bold;
+    color: #ff4d00;
+}
