@@ -8,6 +8,15 @@ const bcrypt = require("bcryptjs");
 const index = express.Router();
 
 
+// Send token
+index.get("/protected", 
+    passport.authenticate("jwt", { session: false }),
+    (req, res) => {
+        return res.json(req.user);
+    }
+);
+
+
 // Register new user
 validateUser = [
     body("username")
@@ -19,6 +28,7 @@ validateUser = [
         .exists()
         .trim()
         .isLength({ min: 6 })
+        .matches(/^[a-zA-Z0-9 -]*$/)
         .withMessage("Invalid password"),
     body("bio")
         .trim()
@@ -54,12 +64,12 @@ validateLogin = [
     body("username")
         .exists()
         .trim()
-        .matches(/^[a-zA-Z0-9]{3,}$/)
+        .matches(/^[a-zA-Z0-9]*$/)
         .withMessage("Invalid username"),
     body("password")
         .exists()
         .trim()
-        .isLength({ min: 6 })
+        .matches(/^[a-zA-Z0-9 -]*$/)
         .withMessage("Invalid password"),
 ];
 
@@ -73,10 +83,10 @@ index.post("/login", validateLogin, async (req, res) => {
     const { username, password } = req.body;
     const user = await db.getUser(username);
 
-    if (!user) return res.status(400).json("Username does not exist");
+    if (!user) return res.status(400).json({errors: [ { msg: "Username does not exist" } ] });
 
     const pass = await bcrypt.compare(password, user.password);
-    if (!pass) return res.status(400).json("Wrong password");
+    if (!pass) return res.status(400).json({errors: [ { msg: "Wrong password" } ] });
 
     const token = sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     return res.json({ token: token, username: user.username });
