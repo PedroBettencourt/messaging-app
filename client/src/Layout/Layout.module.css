@@ -1,0 +1,23 @@
+
+.header {
+    padding: 20px;
+}
+
+.links {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.5rem;
+}
+
+.link {
+    text-decoration: none;
+    color: black;
+}
+
+.link:hover {
+    color: rgb(100, 100, 100);
+    cursor: pointer;
+}
