@@ -39,7 +39,6 @@ function Layout() {
           <li><Link to="/" className={ link }>Messages</Link></li>
 
           { isLoading && <li>Loading</li>}
-          { error && <li>Error</li> }
           { !user && !isLoading && <li><Link to="/login" className={ link }>Login</Link></li> }
           { user && <li><Link to="/profile" className={ link }>Profile</Link></li> }
         </ul>

@@ -6,8 +6,39 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --color-background: #F6FEDB;
+  --color-background2: #E6D3A3;
+  --color-hover: #77943e;
+  --color-accent: #9fc454;
+  --color-text: #494d0d;
 }
 
 body {
   margin: 0;
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+button {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 1em;
+  border: 0;
+  border-radius: 0.5em;
+  padding: 10px 15px;
+  background-color: var(--color-accent);
+  color: var(--color-text);
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: var(--color-hover);
+  cursor: pointer;
+}
+
+input {
+  background-color: var(--color-background2);
+  border: 2px solid var(--color-accent);
+  border-radius: 5px;
+  height: 1.5em;
 }

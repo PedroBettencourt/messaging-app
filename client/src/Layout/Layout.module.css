@@ -1,6 +1,7 @@
 
 .header {
     padding: 20px;
+    background-color: var(--color-accent);
 }
 
 .links {
@@ -14,10 +15,10 @@
 
 .link {
     text-decoration: none;
-    color: black;
+    color: var(--color-text);
 }
 
 .link:hover {
-    color: rgb(100, 100, 100);
+    color: var(--color-hover);
     cursor: pointer;
 }
