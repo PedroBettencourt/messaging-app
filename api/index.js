@@ -48,10 +48,10 @@ index.post("/register", validateUser, async (req, res) => {
 
     // Check if username already exists
     const checkUser = await db.getUser(username);
-    if (checkUser) return res.status(400).json("username already exists");
+    if (checkUser) return res.status(400).json({errors: [ { msg: "username already exists" } ] });
 
     // Check if passwords match
-    if (password !== passwordRepeat) return res.status(400).json("passwords don't match");
+    if (password !== passwordRepeat) return res.status(400).json({errors: [ { msg: "passwords don't match" } ] });
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await db.addUser(username, hashedPassword, bio);

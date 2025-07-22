@@ -36,9 +36,10 @@ button:hover {
   cursor: pointer;
 }
 
-input {
+input, textarea {
   background-color: var(--color-background2);
   border: 2px solid var(--color-accent);
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   border-radius: 5px;
   height: 1.5em;
 }
