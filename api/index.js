@@ -33,7 +33,7 @@ validateUser = [
     body("bio")
         .trim()
         .isLength({ max: 200 }).withMessage("Bio is too long (plus 200 characters)")
-        .matches(/^[a-zA-Z0-9 -]*$/)
+        .matches(/^[a-zA-Z0-9 -.!?]*$/)
         .withMessage("Invalid bio"),
 ];
 
@@ -98,7 +98,7 @@ validateBio = [
     body("bio")
         .trim()
         .isLength({ max: 200 }).withMessage("Bio is too long (plus 200 characters)")
-        .matches(/^[a-zA-Z0-9 -]*$/)
+        .matches(/^[a-zA-Z0-9 -.!?]*$/)
         .withMessage("Invalid bio"),
 ];
 

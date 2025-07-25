@@ -12,7 +12,7 @@ function Register() {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const [user, setUser] = useOutletContext();
+    const [user] = useOutletContext();
 
     function handleChange(e) {
         const name = e.target.name;
@@ -76,7 +76,7 @@ function Register() {
                     <form onSubmit={ handleSubmit } className={ formClass }>
                         <div className={ formEntry }>
                             <label htmlFor="username">Username</label>
-                            <input type="name" name="username" id="username" required value={ input.username } onChange={ handleChange }/>
+                            <input type="text" name="username" id="username" required value={ input.username } onChange={ handleChange }/>
                         </div>
                         <div className={ formEntry }>
                             <label htmlFor="password">Password</label>

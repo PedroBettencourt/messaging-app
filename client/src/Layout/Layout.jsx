@@ -40,7 +40,7 @@ function Layout() {
 
           { isLoading && <li>Loading</li>}
           { !user && !isLoading && <li><Link to="/login" className={ link }>Login</Link></li> }
-          { user && <li><Link to="/profile" className={ link }>Profile</Link></li> }
+          { user && <li><Link to={`/profile/${user}`} className={ link }>Profile</Link></li> }
         </ul>
       </nav>
       <Outlet context={ [user, setUser] } />

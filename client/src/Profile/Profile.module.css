@@ -1,0 +1,27 @@
+.profileClass {
+    margin: 20px;
+}
+
+.bioClass {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.bioClass > textarea {
+    max-width: 400px;
+    height: auto;
+}
+
+.buttons {
+    display: flex;
+    gap: 20px;
+}
+
+.errorClass {
+    list-style-type: none;
+    margin-bottom: 20px;
+    padding: 0;
+    font-weight: bold;
+    color: #ff4d00;
+}

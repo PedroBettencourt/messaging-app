@@ -4,8 +4,6 @@ import { loginClass, formClass, formEntry, link, errorClass } from "./Login.modu
 
 function Login() {
 
-    // get react router working
-
     const [input, setInput] = useState({ username: "", password: "" });
     const [submit, setSubmit] = useState(false);
     const [response, setResponse] = useState(null);
@@ -80,7 +78,7 @@ function Login() {
                     <form onSubmit={ handleSubmit } className={ formClass }>
                         <div className={ formEntry }>
                             <label htmlFor="username">Username</label>
-                            <input type="name" name="username" id="username" required value={ input.username } onChange={ handleChange }/>
+                            <input type="text" name="username" id="username" required value={ input.username } onChange={ handleChange }/>
                         </div>
                         <div className={ formEntry }>
                             <label htmlFor="password">Password</label>
