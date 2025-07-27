@@ -1,0 +1,15 @@
+.error {
+    margin: 20px;
+}
+
+.link {
+    text-decoration: none;
+    color: var(--color-text);
+    display: block;
+    margin-top: 20px;
+}
+
+.link:hover {
+    color: var(--color-hover);
+    cursor: pointer;
+}
