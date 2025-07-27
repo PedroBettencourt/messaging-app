@@ -1,6 +1,79 @@
 import { useEffect, useState } from 'react';
-import { page, content, messagesSection, contactsClass, link, selected, messageClass, username, date, formClass } from './App.module.css';
+import { page, content, messagesSection, contactsClass, link, selected, messageClass, username, date, formClass, newContactClass, obscure, buttons } from './App.module.css';
 import { Link } from 'react-router-dom';
+
+function Contact({ contacts, setContacts, setNewContact, setSelectedContact, setMessages }) {
+
+  const [input, setInput] = useState('');
+  const [submit, setSubmit] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [response, setResponse] = useState(null);
+
+  function handleChange(e) {
+    setInput(e.target.value);
+  };
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    setSubmit(true);
+  };
+
+  function handleCancel() {
+    setNewContact(false);
+  };
+
+  useEffect(() => {
+    async function getContact() {
+      try {
+        const res = await fetch(`http://localhost:3000/${input}`);
+        const json = await res.json();
+
+        if (json.username) {
+          setContacts([...contacts, json.username]);
+          setSelectedContact(json.username);
+          setMessages([]);
+          setNewContact(false);
+        } else {
+          setResponse(json);
+        };
+
+      } catch (err) {
+        setError(err);
+      } finally {
+        setIsLoading(false);
+        setSubmit(false);
+      }
+    };
+
+    if (submit) {
+      setIsLoading(true);
+      setError(null);
+      setResponse(null);
+      getContact();
+    }
+
+  }, [submit]);
+
+  return(
+    <>
+      <div className={ newContactClass }>
+        { isLoading && <h2>Loading...</h2> }
+        { error && <h2>Error</h2> }
+        { response && <h2>{ response }</h2> }
+        <form onSubmit={ handleSubmit }>
+          <label htmlFor="username">Username</label>
+          <input type="text" name='username' id='username' value={ input } onChange={ handleChange } />
+          <div className={ buttons }>
+            <button type="submit">Search</button>
+            <button onClick={ handleCancel }>Cancel</button>
+          </div>
+        </form>
+      </div>
+      <div className={ obscure }></div>
+    </>
+  )
+};
 
 function Message({ contact, error, setError, messages, setMessages }) {
   const [input, setInput] = useState({});
@@ -76,6 +149,8 @@ function App() {
   const [selectedContact, setSelectedContact] = useState(null);
   const [messages, setMessages] = useState(null);
 
+  const [newContact, setNewContact] = useState(false);
+
   useEffect(() => {
     async function fetchContacts() {
       try {
@@ -102,6 +177,11 @@ function App() {
   function handleClick(e) {
     setSelectedContact(e.target.innerText);
   };
+
+  function handleNewContact() {
+    setNewContact(true);
+    //setSelectedContact();
+  }
 
   useEffect(() => {
     async function fetchMessages() {
@@ -139,10 +219,13 @@ function App() {
         </div> 
       }
 
+      { newContact && <Contact contacts={ contacts} setContacts={ setContacts } setNewContact={ setNewContact } setSelectedContact={ setSelectedContact } setMessages={ setMessages }/>}
+
       { contacts && 
         <div className={ content }>
           <nav className={ contactsClass }>
             <ul>
+              <li onClick={ handleNewContact }>New Contact</li>
               {contacts.map(contact => (
                 <>
                   { (selectedContact === contact) 

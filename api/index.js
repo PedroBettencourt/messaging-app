@@ -131,7 +131,7 @@ const validateMessage = [
         .exists()
         .trim()
         .isLength({ max: 500 }).withMessage("Message is too long (plus 500 characters)")
-        .matches(/^[a-zA-Z0-9 -]*$/)
+        .matches(/^[a-zA-Z0-9 -.!?]*$/)
         .withMessage("Invalid message"),
 ];
 

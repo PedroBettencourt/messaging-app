@@ -89,3 +89,41 @@
     height: 2em;
     resize:vertical;
 }
+
+.obscure {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 2;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.newContactClass {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #b8db72;
+    border-radius: 10px;
+    padding: 100px;
+    z-index: 3;
+}
+
+.newContactClass h2 {
+    text-align: center;
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+.newContactClass input {
+    margin-left: 5px;
+}
+
+.buttons {
+    padding-top: 20px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
