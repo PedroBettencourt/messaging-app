@@ -35,13 +35,13 @@ async function deleteUser(username) {
 }
 
 async function sendMessage(authorId, recipientId, content) {
-    const message = await prisma.message.create({ data: { authorId: authorId, recipientId: recipientId, content: content } });
+    const message = await prisma.message.create({ data: { authorId: authorId, recipientId: recipientId, content: content }, include: { author: true, recipient: true } });
     return message;
 };
 
 async function getMessages(authorId, recipientId) {
-    const sentMessages = await prisma.message.findMany({ where: { authorId: authorId, recipientId: recipientId } });
-    const receivedMessages = await prisma.message.findMany({ where: { authorId: recipientId, recipientId: authorId } });
+    const sentMessages = await prisma.message.findMany({ where: { authorId: authorId, recipientId: recipientId }, include: { author: true, recipient: true } });
+    const receivedMessages = await prisma.message.findMany({ where: { authorId: recipientId, recipientId: authorId }, include: { author: true, recipient: true} });
     return [sentMessages, receivedMessages];
 };
 

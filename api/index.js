@@ -156,7 +156,14 @@ index.post("/message",
 
         // Send message
         const message = await db.sendMessage(authorDb.id, recipientDb.id, content);
-        return res.json(message);
+
+        return res.json({
+                id: message.id, 
+                sentAt: message.sentAt, 
+                content: message.content, 
+                author: message.author.username, 
+                recipient: message.recipient.username
+            });
     }
 );
 
@@ -185,7 +192,24 @@ index.get("/messages/:username",
         const senderUsername = req.params.username;
         const sender = await db.getUser(senderUsername);
 
-        const messages = await db.getMessages(user.id, sender.id);
+        let messages = await db.getMessages(user.id, sender.id);
+        // Join both received and sent messages
+        messages = messages[0].concat(messages[1]);
+
+        // Get only the important info
+        messages = messages.map(message => {
+            return {
+                id: message.id, 
+                sentAt: message.sentAt, 
+                content: message.content, 
+                author: message.author.username, 
+                recipient: message.recipient.username
+            }
+        })
+
+        // Sort array with date
+        messages = messages.sort((a, b) => a.sentAt - b.sentAt);
+
         return res.json(messages);
     }
 );
@@ -199,8 +223,6 @@ index.get("/:username", async (req, res) => {
     if (!profile) return res.status(400).json("No username found");
     
     return res.json({ username: profile.username, bio: profile.bio });
-
-    // Probably get people who they've talked in order of most recent;
 });
 
 module.exports = index;

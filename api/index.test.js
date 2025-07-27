@@ -52,7 +52,7 @@ test("login with wrong password", async() => {
     .type("form")
     .send({ username: "testing", password: "aaaaaa" });
   
-  expect(res.body).toBe("Wrong password");
+  expect(res.body).toMatchObject({"errors": [{"msg": "Wrong password"}]});
 });
 
 
@@ -136,7 +136,7 @@ test("get messages", async () => {
     .get("/messages/testing2")
     .set('Authorization', `Bearer ${TOKEN}`);
 
-  expect(res.body[0][0]).toMatchObject({ content: "testing" });
+  expect(res.body[0]).toMatchObject({ content: "testing" });
 
 });
 

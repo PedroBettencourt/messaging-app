@@ -75,7 +75,8 @@ function Edit({ bio, setBio, setEdit, setIsLoading, setError }) {
 function Profile() {
 
   const username = useParams().username;
-  const [user] = useOutletContext();
+  console.log(useParams())
+  const [user, setUser] = useOutletContext();
   const [bio, setBio] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);

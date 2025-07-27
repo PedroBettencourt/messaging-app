@@ -1,0 +1,91 @@
+.page {
+    margin: 20px;
+}
+
+.page > h1 {
+    grid-column: 1/3;
+}
+
+.link {
+    text-decoration: none;
+    color: var(--color-text);
+    display: block;
+    margin-top: 20px;
+}
+
+.link:hover {
+    color: var(--color-hover);
+    cursor: pointer;
+}
+
+.content {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+}
+
+.contactsClass {
+    background-color: var(--color-accent);
+}
+
+.contactsClass > ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow: scroll;
+}
+
+.contactsClass li {
+    padding: 20px;
+}
+
+.contactsClass li:hover {
+    background-color: var(--color-hover);
+    cursor: pointer;
+}
+
+.selected {
+    background-color: var(--color-hover);
+}
+
+.messagesSection {
+    background-color: #e2cc93;
+    padding: 20px;
+}
+
+.messagesSection > ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow: scroll;
+}
+
+.messageClass {
+    margin-bottom: 20px;
+}
+
+.messageClass > div {
+    display: flex;
+    gap: 10px;
+}
+
+.username {
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.date {
+    font-weight: 100;
+    align-self: flex-end;
+}
+
+.formClass {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.formClass > textarea {
+    width: 100%;
+    height: 2em;
+    resize:vertical;
+}
