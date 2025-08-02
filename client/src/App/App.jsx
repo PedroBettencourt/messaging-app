@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { page, content, messagesSection, contactsClass, link, selected, messageClass, username, date, formClass, newContactClass, obscure, buttons } from './App.module.css';
 import { Link } from 'react-router-dom';
 
-function Contact({ contacts, setContacts, setNewContact, setSelectedContact, setMessages }) {
+function Contact({ contacts, setContacts, setNewContact, setSelectedContact }) {
 
   const [input, setInput] = useState('');
   const [submit, setSubmit] = useState(false);
@@ -24,6 +24,7 @@ function Contact({ contacts, setContacts, setNewContact, setSelectedContact, set
   };
 
   useEffect(() => {
+    console.log("new contact")
     async function getContact() {
       try {
         const res = await fetch(`http://localhost:3000/${input}`);
@@ -32,7 +33,6 @@ function Contact({ contacts, setContacts, setNewContact, setSelectedContact, set
         if (json.username) {
           setContacts([...contacts, json.username]);
           setSelectedContact(json.username);
-          setMessages([]);
           setNewContact(false);
         } else {
           setResponse(json);
@@ -180,7 +180,6 @@ function App() {
 
   function handleNewContact() {
     setNewContact(true);
-    //setSelectedContact();
   }
 
   useEffect(() => {
@@ -205,7 +204,7 @@ function App() {
     setIsLoading(true);
     fetchMessages();
 
-  }, [selectedContact])
+  }, [selectedContact]);
 
   return (
     <div className={ page }>
@@ -219,7 +218,7 @@ function App() {
         </div> 
       }
 
-      { newContact && <Contact contacts={ contacts} setContacts={ setContacts } setNewContact={ setNewContact } setSelectedContact={ setSelectedContact } setMessages={ setMessages }/>}
+      { newContact && <Contact contacts={ contacts} setContacts={ setContacts } setNewContact={ setNewContact } setSelectedContact={ setSelectedContact } />}
 
       { contacts && 
         <div className={ content }>
