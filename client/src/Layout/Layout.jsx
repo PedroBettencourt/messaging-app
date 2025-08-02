@@ -13,7 +13,7 @@ function Layout() {
     async function fetchData() {
       setIsLoading(true);
       try {
-            const res = await fetch(`http://localhost:3000/protected`,
+            const res = await fetch(`${import.meta.env.VITE_API}/protected`,
                           { 
                             headers: {"Authorization": `Bearer ${localStorage.token}`} 
                           }

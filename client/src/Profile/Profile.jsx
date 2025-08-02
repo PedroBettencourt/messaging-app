@@ -25,7 +25,7 @@ function Edit({ bio, setBio, setEdit, setIsLoading, setError }) {
     async function fetchData() {
       try {
         const data = JSON.stringify({ bio: input });
-        const res = await fetch(`http://localhost:3000/update`, 
+        const res = await fetch(`${import.meta.env.VITE_API}/update`, 
           {
             method: 'PUT',
             body: data,
@@ -85,7 +85,7 @@ function Profile() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch(`http://localhost:3000/${username}`);
+        const res = await fetch(`${import.meta.env.VITE_API}/${username}`);
         const json = await res.json();
         setBio(json.bio);
       } catch (err) {

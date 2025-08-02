@@ -29,7 +29,7 @@ function Login() {
             setIsLoading(true);
             try {
                 const data = JSON.stringify(input);
-                const res = await fetch("http://localhost:3000/login", 
+                const res = await fetch(`${import.meta.env.VITE_API}/login`, 
                     {
                         method: "POST",
                         body: data,

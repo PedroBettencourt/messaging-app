@@ -27,7 +27,7 @@ function Contact({ contacts, setContacts, setNewContact, setSelectedContact }) {
     console.log("new contact")
     async function getContact() {
       try {
-        const res = await fetch(`http://localhost:3000/${input}`);
+        const res = await fetch(`${import.meta.env.VITE_API}/${input}`);
         const json = await res.json();
 
         if (json.username) {
@@ -94,7 +94,7 @@ function Message({ contact, error, setError, messages, setMessages }) {
     async function sendMessage() {
       try {
         const data = ({ recipient: contact, content: input[contact] });
-        const res = await fetch(`http://localhost:3000/message`,
+        const res = await fetch(`${import.meta.env.VITE_API}/message`,
           {
             method: 'POST',
             body: JSON.stringify(data),
@@ -154,7 +154,7 @@ function App() {
   useEffect(() => {
     async function fetchContacts() {
       try {
-        const res = await fetch(`http://localhost:3000/contacts`,  // try with process.env.URL
+        const res = await fetch(`${import.meta.env.VITE_API}/contacts`,  // try with process.env.URL
           {
             headers: { "Authorization": `Bearer ${localStorage.token}` }
           });
@@ -185,7 +185,7 @@ function App() {
   useEffect(() => {
     async function fetchMessages() {
       try {
-        const res = await fetch(`http://localhost:3000/messages/${selectedContact}`,
+        const res = await fetch(`${import.meta.env.VITE_API}/${selectedContact}`,
           {
             headers: { "Authorization": `Bearer ${localStorage.token}` }
           });

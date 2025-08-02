@@ -31,7 +31,7 @@ function Register() {
             setIsLoading(true);
             try {
                 const data = JSON.stringify(input);
-                const res = await fetch("http://localhost:3000/register", 
+                const res = await fetch(`${import.meta.env.VITE_API}/register`, 
                     {
                         method: "POST",
                         body: data,
