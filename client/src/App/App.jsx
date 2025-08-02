@@ -185,7 +185,7 @@ function App() {
   useEffect(() => {
     async function fetchMessages() {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API}/${selectedContact}`,
+        const res = await fetch(`${import.meta.env.VITE_API}/messages/${selectedContact}`,
           {
             headers: { "Authorization": `Bearer ${localStorage.token}` }
           });
